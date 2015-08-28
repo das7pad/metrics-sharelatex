@@ -93,6 +93,8 @@ module.exports =
 			logger.log {mongodb_require_path, v2_path}, "loaded mongodb-core in metrics"
 
 		try
+			# when using mongoose, we find the mongodb-core module in the
+			# subdirectory of mongodb
 			v2_path = mongodb_require_path.replace(/\/mongodb$/, '/mongodb/node_modules/mongodb-core')
 			mongodbCore = require(v2_path)
 			logger.log {mongodb_require_path, v2_path}, "loaded mongodb-core (from subdir) in metrics"

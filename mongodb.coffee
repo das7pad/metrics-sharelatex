@@ -192,7 +192,7 @@ module.exports =
 				when "v2" then base[method] = mongo_driver_v2
 				when "v2:find" then base[method] = mongo_driver_v2_mongodb_find
 				when "v2:cursor" then base[method] = mongo_driver_v2_mongodb_cursor
-				else logger.err {version}, "unknown mongo version"
+				else throw new Error("unknown mongo version")
 
 			if _method.length != base[method].length
 				logger.err {originalSignature: _method.length, newSignature: _base[method].length}, "mismatch in mongo metrics wrapping"

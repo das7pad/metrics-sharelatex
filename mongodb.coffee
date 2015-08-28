@@ -183,7 +183,7 @@ module.exports =
 						params = {query: cms.query, query_type: type, collection: ns}
 						params["response-time"] = time
 						logger.log params, "mongo request cursor"
-						callback(arguments) # execute the user callback
+						callback.apply this, arguments # execute the user callback
 					_next.call this, cb
 				return cursor # remember we need to return the cursor!
 

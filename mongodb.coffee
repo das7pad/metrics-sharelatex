@@ -1,3 +1,81 @@
+# Aim: record the time taken for mongo queries in the client
+#
+# We have several drivers and wrappers to deal with
+#
+# 1) the original 'mongodb' (1.x series)
+#
+#  This has 4 methods _execute{Query,Remove,Insert,Update}Command() on
+#  the Db.prototype which can be wrapped in a timer.
+#
+# 2) the new 'mongodb' (2.x series) which uses the 'mongodb-core' driver
+#
+#  The mongodb-core driver is found in the directory
+#  node_modules/mongodb/node_modules/mongodb-core
+#
+#  There are two levels where we could wrap functions, in mongodb itself or
+#  in mongodb-core driver.
+#
+#  The relevant functions in mongodb would be collection.js
+#
+#    - Collection.prototype.find()
+#    - Collection.prototype.insertOne()
+#    - Collection.prototype.insertMany()
+#    - Collection.prototype.insert()
+#    - ...
+#
+#  but there are about 50 of these functions and, unlike in the 1.x
+#  series, the simpler functions that they go through are not publicly
+#  exported.
+#
+#  Therefore we have to look deeper to wrap functions in mongodb-core,
+#  which are publicly exported and called by the mongodb collection.js
+#  methods.
+#
+#  The mongodb Collection.prototype functions call methods like
+#
+#    self.s.topology.insert(namespace, docs, finalOptions, callback)
+#
+#  which are defined in mongodb-core for each topology: "server",
+#  "replset" and "mongos".
+#
+#  Taking "server" as an example we find four functions with callbacks
+#  that we can wrap:
+#
+#  mongodb-core/lib/topologies/server.js:
+#    Server.prototype.command = function(ns, cmd, options, callback) ...
+#    Server.prototype.insert = function(ns, ops, options, callback) ...
+#    Server.prototype.update = function(ns, ops, options, callback) ...
+#    Server.prototype.remove = function(ns, ops, options, callback) ...
+#
+#  These are the functions we can wrap! However, these do not include
+#  queries that return a cursor.  To catch those we wrap the function
+#  which returns a cursor
+#
+#  mongodb-core/lib/topologies/server.js:
+#    Server.prototype.cursor = function(ns, cmd, cursorOptions) ...
+#
+#  and capture the returned cursor, modifying its .next() method to
+#  return the time to the first result, then restoring the original
+#  .next() method for further results.
+#
+# 3) mongojs (0.x)
+#
+#  Uses the mongodb v1 driver
+#
+# 4) mongojs (1.x)
+#
+#  Uses the mongodb-core driver directly, it does not use the
+#  higher-level mongodb package.
+#
+# 5) mongoose (3.x)
+#
+#  Uses the mongodb v1 driver
+#
+# 6) mongoose (4.x)
+#
+#  Uses the higher-level mongodb 2.x package, which in turn uses
+#  mongodb-core.
+
 module.exports =
 	monitor: (mongodb_require_path, logger) ->
 

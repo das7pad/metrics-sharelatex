@@ -205,22 +205,16 @@ module.exports =
 		monitorMethod(mongodbCore?.Server.prototype, "remove", "remove", "v2")
 		monitorMethod(mongodbCore?.Server.prototype, "insert", "insert", "v2")
 		monitorMethod(mongodbCore?.Server.prototype, "update", "update", "v2")
+		monitorMethod(mongodbCore?.Server.prototype, "cursor", "query", "v2:cursor")
 
 		monitorMethod(mongodbCore?.ReplSet.prototype, "command", "command", "v2")
 		monitorMethod(mongodbCore?.ReplSet.prototype, "remove", "remove", "v2")
 		monitorMethod(mongodbCore?.ReplSet.prototype, "insert", "insert", "v2")
 		monitorMethod(mongodbCore?.ReplSet.prototype, "update", "update", "v2")
+		monitorMethod(mongodbCore?.ReplSet.prototype, "cursor", "query", "v2:cursor")
 
 		monitorMethod(mongodbCore?.Mongos.prototype, "command", "command", "v2")
 		monitorMethod(mongodbCore?.Mongos.prototype, "remove", "remove", "v2")
 		monitorMethod(mongodbCore?.Mongos.prototype, "insert", "insert", "v2")
 		monitorMethod(mongodbCore?.Mongos.prototype, "update", "update", "v2")
-
-		# prefer the internal _find method over wrapping the cursor, because we
-		# have to clean up the cursor after the first iteration
-		if false && mongodbCore?.Cursor.prototype._find?
-			monitorMethod(mongodbCore?.Cursor.prototype, "_find", "query", "v2:find")
-		else
-			monitorMethod(mongodbCore?.Server.prototype, "cursor", "query", "v2:cursor")
-			monitorMethod(mongodbCore?.ReplSet.prototype, "cursor", "query", "v2:cursor")
-			monitorMethod(mongodbCore?.Mongos.prototype, "cursor", "query", "v2:cursor")
+		monitorMethod(mongodbCore?.Mongos.prototype, "cursor", "query", "v2:cursor")

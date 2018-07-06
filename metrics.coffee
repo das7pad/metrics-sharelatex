@@ -1,5 +1,8 @@
 StatsD = require('lynx')
-statsd = new StatsD(process.env["STATSD_HOST"] or "localhost", 8125, {on_error:->})
+Settings = require('settings-sharelatex')
+statsd = new StatsD(Settings.metrics?.statsd?.host or "localhost",
+                    Settings.metrics?.statsd?.port or 8125,
+                    {on_error:->})
 
 name = "unknown"
 hostname = require('os').hostname()

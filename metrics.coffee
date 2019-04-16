@@ -1,4 +1,6 @@
-if process.env["USE_PROM_METRICS"] != "true" 
+if process.env["USE_PROM_METRICS"] != "true" && process.env["USE_STATSD_METRICS"] != "true"
+  return module.exports = require("./noop/metrics")
+if process.env["USE_PROM_METRICS"] != "true"
 	return module.exports = require("./statsd/metrics")
 else
  	console.log("using prometheus")

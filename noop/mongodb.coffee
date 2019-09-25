@@ -1,9 +1,7 @@
 module.exports =
 	monitor: (mongodb_require_path, logger) ->
 		if process.env['ENABLE_MONGODB_LOGGING'] != "true"
-			logger.log
-				{}
-				'mongodb logging disabled'
+			logger.log 'mongodb logging disabled'
 			return
 
 		try

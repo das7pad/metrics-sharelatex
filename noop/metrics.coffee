@@ -23,8 +23,9 @@ module.exports = Metrics =
 
 	Timer : class
 		constructor :(key, sampleRate = 1)->
+			this.start = new Date()
 		done:->
-			return 42
+			return new Date - this.start
 
 	gauge : (key, value, sampleRate = 1)->
 

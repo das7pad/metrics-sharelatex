@@ -26,7 +26,7 @@ module.exports.monitor = (logger) ->
 							requestUrl: reqUrl
 							requestSize: req.headers["content-length"]
 							status: res.statusCode
-							responseSize: res._headers?["content-length"]
+							responseSize: res.getHeader("content-length")
 							userAgent: req.headers["user-agent"]
 							remoteIp: remoteIp
 							referer: referrer
@@ -44,7 +44,7 @@ module.exports.monitor = (logger) ->
 							"user-agent": req.headers["user-agent"]
 							"content-length": req.headers["content-length"]
 						res:
-							"content-length": res._headers?["content-length"]
+							"content-length": res.getHeader("content-length")
 							statusCode: res.statusCode
 						"response-time": responseTimeMs
 				if res.statusCode >= 500

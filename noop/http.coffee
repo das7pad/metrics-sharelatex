@@ -19,7 +19,7 @@ module.exports.monitor = (logger) ->
 						"user-agent": req.headers["user-agent"]
 						"content-length": req.headers["content-length"]
 					res:
-						"content-length": res._headers?["content-length"]
+						"content-length": res.getHeader("content-length")
 						statusCode: res.statusCode
 					"response-time": responseTimeMs
 				if res.statusCode >= 500

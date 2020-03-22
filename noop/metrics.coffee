@@ -1,35 +1,30 @@
-console.log("using noop")
-
-name = "unknown"
-
 destructors = []
 
 require "./uv_threadpool_size"
 
 module.exports = Metrics =
-	initialize: (_name) ->
-		name = _name
+	initialize: () ->
 
 	registerDestructor: (func) ->
 		destructors.push func
 
-	set : (key, value, sampleRate = 1)->
+	set : (key, value, sampleRate)->
 
-	inc : (key, sampleRate = 1)->
+	inc : (key, sampleRate)->
 
-	count : (key, count, sampleRate = 1)->
+	count : (key, count, sampleRate)->
 
 	timing: (key, timeSpan, sampleRate)->
 
 	Timer : class
-		constructor :(key, sampleRate = 1)->
+		constructor: (key, sampleRate)->
 			this.start = new Date()
 		done:->
 			return new Date - this.start
 
-	gauge : (key, value, sampleRate = 1)->
+	gauge : (key, value, sampleRate)->
 
-	globalGauge: (key, value, sampleRate = 1)->
+	globalGauge: (key, value, sampleRate)->
 
 	mongodb: require "./mongodb"
 	http: require "./http"

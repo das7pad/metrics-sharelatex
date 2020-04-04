@@ -5,7 +5,7 @@ module.exports.monitor = (logger) ->
 		res.end = () ->
 			end.apply(this, arguments)
 			responseTime = process.hrtime(startTime)
-			responseTimeMs = Math.round(responseTime[0] * 1000 + responseTime[1] / 1000)
+			responseTimeMs = Math.round(responseTime[0] * 1000 + responseTime[1] / 1000000)
 			if req.route?.path?
 				remoteIp = req.ip || req.socket?.socket?.remoteAddress || req.socket?.remoteAddress
 				reqUrl = req.originalUrl || req.url

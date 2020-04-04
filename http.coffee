@@ -1,7 +1,6 @@
 os = require("os")
-yn = require("yn")
 
-STACKDRIVER_LOGGING = yn(process.env['STACKDRIVER_LOGGING'])
+STACKDRIVER_LOGGING = process.env['STACKDRIVER_LOGGING'] == 'true'
 
 module.exports.monitor = (logger) ->
 	return (req, res, next) ->

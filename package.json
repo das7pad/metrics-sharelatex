@@ -6,11 +6,6 @@
     "type": "git",
     "url": "https://github.com/sharelatex/metrics-sharelatex.git"
   },
-  "optionalDependencies": {
-    "@google-cloud/debug-agent": "^3.0.0",
-    "@google-cloud/profiler": "^0.2.3",
-    "@google-cloud/trace-agent": "^3.2.0"
-  },
   "dependencies": {
     "coffee-script": "1.6.0",
     "lynx": "~0.1.1",

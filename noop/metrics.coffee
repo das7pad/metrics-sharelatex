@@ -14,6 +14,9 @@ module.exports = Metrics =
 
 	count : (key, count, sampleRate)->
 
+	summary : (key, value)->
+		# not supported
+	
 	timing: (key, timeSpan, sampleRate)->
 
 	Timer : class

@@ -42,6 +42,7 @@ module.exports.monitor = (logger) ->
 							"remote-addr": remoteIp
 							"user-agent": req.headers["user-agent"]
 							"content-length": req.headers["content-length"]
+							"request-id": req.headers["x-request-id"]
 						res:
 							"content-length": res.getHeader("content-length")
 							statusCode: res.statusCode

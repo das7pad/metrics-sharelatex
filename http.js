@@ -5,10 +5,7 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const os = require("os");
-const yn = require("yn");
-
-const STACKDRIVER_LOGGING = yn(process.env['STACKDRIVER_LOGGING']);
+const STACKDRIVER_LOGGING = process.env['STACKDRIVER_LOGGING'] === 'true';
 
 module.exports.monitor = logger => (function(req, res, next) {
     const Metrics = require("./index");

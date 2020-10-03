@@ -6,7 +6,6 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 let OpenSocketsMonitor
-const seconds = 1000
 
 // In Node 0.10 the default is 5, which means only 5 open connections at one.
 // Node 0.12 has a default of Infinity. Make sure we have no limit set,
@@ -39,7 +38,8 @@ module.exports = OpenSocketsMonitor = {
   monitor(logger) {
     const interval = setInterval(
       () => OpenSocketsMonitor.gaugeOpenSockets(),
-      5 * seconds
+      parseInt(process.env.METRICS_OPEN_SOCKETS_COLLECTION_INTERVAL, 10) ||
+        5 * 1000
     )
     const Metrics = require('./index')
     return Metrics.registerDestructor(() => clearInterval(interval))

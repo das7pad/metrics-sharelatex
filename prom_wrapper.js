@@ -146,12 +146,15 @@ class MetricWrapper {
   }
 }
 
-if (!PromWrapper.sweepRegistered) {
+let sweepingInterval
+PromWrapper.setupSweeping = function() {
+  if (sweepingInterval) {
+    clearInterval(sweepingInterval)
+  }
   if (process.env.DEBUG_METRICS) {
     console.log('Registering sweep method')
   }
-  PromWrapper.sweepRegistered = true
-  setInterval(function() {
+  sweepingInterval = setInterval(function() {
     if (PromWrapper.ttlInMinutes) {
       if (process.env.DEBUG_METRICS) {
         console.log('Sweeping metrics')
@@ -161,6 +164,9 @@ if (!PromWrapper.sweepRegistered) {
       })
     }
   }, 60000)
+
+  const Metrics = require('./index')
+  Metrics.registerDestructor(() => clearInterval(sweepingInterval))
 }
 
 module.exports = PromWrapper

@@ -5,7 +5,7 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const STACKDRIVER_LOGGING = process.env['STACKDRIVER_LOGGING'] === 'true'
+const STACKDRIVER_LOGGING = process.env.STACKDRIVER_LOGGING === 'true'
 
 module.exports.monitor = logger =>
   function(req, res, next) {
